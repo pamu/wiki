@@ -19,6 +19,7 @@
                  [org.clojure/tools.nrepl "0.2.10"]
                  [ring-server "0.4.0"]
                  [org.clojure/java.jdbc "0.4.1"]
+                 [mysql/mysql-connector-java "5.1.36"]
                  [lib-noir "0.8.9"]]
 
   :min-lein-version "2.0.0"

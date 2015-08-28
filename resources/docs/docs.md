@@ -1,10 +1,10 @@
 <div class="bs-callout bs-callout-danger">
 
-### MongoDB Configuration is Required
+### MySQL Configuration is Required
 
-Before continuing please follow the steps below to configure your MongoDB connection.
+Before continuing please follow the steps below to configure your MySQL connection.
 
-* Ensure that MongoDB is up and running.
+* Ensure that MySQL is up and running.
 * Add the connection parameters in the `wiki.db.core` namespace.
 * Restart the application.
 
