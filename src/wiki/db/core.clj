@@ -6,7 +6,8 @@
 (defonce data-error-message {:message "Unable to process Data"
                              :error_code 1
                              :error_message "Data Error"})
-(def mysql-db {:subprotocol "mysql"
+(def mysql-db {:classname "com.mysql.jdbc.Driver"
+               :subprotocol "mysql"
                :subname "//127.0.0.1:3306/wiki"
                :user "root"
                :password "root"})
@@ -39,5 +40,27 @@
     (let [edits (get-edits article-id)]
       (update-edits article-id (+ edits 1)))
     ))
+
+(defn update-content [article-id content]
+  (j/update! mysql-db :articles {:content content} ["id = ?" article-id]))
+
+(defn current-time []
+  (let [date (new java.util.Date)]
+    (let [sdf (new java.text.SimpleDateFormat "yyyyMMddHHmmss")]
+      (.format sdf (.getTime date)))))
+
+(defn update-modified-time [article-id]
+  (j/update! mysql-db :articles {:modified_time (current-time)} ["id = ?" article-id]))
+
+(defn update-article [article-id content]
+  (j/with-db-transaction [t-con mysql-db]
+    (do
+      (update-content article-id content)
+      (update-modified-time article-id)
+      (increment-edits article-id))))
+
+
+
+
 
 
