@@ -78,3 +78,10 @@
     (catch Exception e
       (timbre/error "Database Exception" e))))
 
+(defn process-get-articles [req]
+  (try
+    (json {:articles (db/get-articles (:page-size (req :params)) (:page-number (req :params)))})
+    (catch Exception e
+      (timbre/error "Database Exception" e)
+      (json {:message "failure" :reason "exception in the processor"}))))
+

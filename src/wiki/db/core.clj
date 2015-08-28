@@ -26,9 +26,6 @@
      :modified_time (current-time)
      :edits 0}))
 
-(defn get-all-articles []
-  (j/query mysql-db ["select * from articles"]))
-
 (defn get-article [article-id]
   (j/query mysql-db ["select * from articles where id = ?" article-id]))
 
@@ -62,6 +59,16 @@
       (update-content article-id content)
       (update-modified-time article-id)
       (increment-edits article-id))))
+
+(defn parse-int [str]
+  (Integer. str))
+
+(defn get-articles [page-size page-number]
+  (j/query mysql-db ["select * from articles order by id asc limit ?, ?"
+                     (* (parse-int page-size) (- (parse-int page-number) 1))
+                     (parse-int page-size)]))
+
+
 
 
 

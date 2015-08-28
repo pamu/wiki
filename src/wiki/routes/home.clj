@@ -33,6 +33,12 @@
     {:status 200
      :headers {"Access-Control-Allow-Methods" "OPTIONS, GET"}})
 
+  (GET "/get-articles" req
+    (processor/process-get-articles req))
+  (OPTIONS "/get-articles" []
+    {:status 200
+     :headers {"Access-Control-Allow-Methods" "OPTIONS, GET"}})
+
 ;  (POST "/login" req
 ;    (processor/process-login req))
 ;  (OPTIONS "/login" []
