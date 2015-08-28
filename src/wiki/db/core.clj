@@ -12,6 +12,12 @@
                :user "root"
                :password "root"})
 
+
+(defn current-time []
+  (let [date (new java.util.Date)]
+    (let [sdf (new java.text.SimpleDateFormat "yyyyMMddHHmmss")]
+      (.format sdf (.getTime date)))))
+
 (defn insert [title content]
   (j/insert! mysql-db :articles
     {:title title
@@ -22,6 +28,9 @@
 
 (defn get-all-articles []
   (j/query mysql-db ["select * from articles"]))
+
+(defn get-article [article-id]
+  (j/query mysql-db ["select * from articles where id = ?" article-id]))
 
 (defn get-edits [article-id]
   (first (j/query mysql-db ["select edits from articles where id = ?" article-id] :row-fn :edits)))
@@ -43,11 +52,6 @@
 
 (defn update-content [article-id content]
   (j/update! mysql-db :articles {:content content} ["id = ?" article-id]))
-
-(defn current-time []
-  (let [date (new java.util.Date)]
-    (let [sdf (new java.text.SimpleDateFormat "yyyyMMddHHmmss")]
-      (.format sdf (.getTime date)))))
 
 (defn update-modified-time [article-id]
   (j/update! mysql-db :articles {:modified_time (current-time)} ["id = ?" article-id]))
