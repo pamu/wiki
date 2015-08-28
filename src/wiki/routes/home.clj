@@ -21,6 +21,12 @@
 
   (GET "/about" [] (about-page))
 
+  (GET "/create" req
+    (processor/process-create req))
+  (OPTIONS "/create" []
+    {:status 200
+     :headers {"Access-Control-Allow-Methods" "OPTIONS, GET"}})
+
 ;  (POST "/login" req
 ;    (processor/process-login req))
 ;  (OPTIONS "/login" []

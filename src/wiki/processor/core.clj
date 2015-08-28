@@ -63,3 +63,9 @@
 ;      account)
 ;    (catch Exception e
 ;      (timbre/error "Authorization header missing" e))))
+
+(defn process-create [req]
+  (try
+    (db/insert (get (req :params) :title) (get (req :params) :content))
+    (catch Exception e
+      (timbre/error "Database Exception" e))))

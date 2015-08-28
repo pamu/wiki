@@ -12,12 +12,12 @@
                :user "root"
                :password "root"})
 
-(defn insert [title content creation-time modified-time]
+(defn insert [title content]
   (j/insert! mysql-db :articles
     {:title title
      :content content
-     :creation_time creation-time
-     :modified_time modified-time
+     :creation_time (current-time)
+     :modified_time (current-time)
      :edits 0}))
 
 (defn get-all-articles []
