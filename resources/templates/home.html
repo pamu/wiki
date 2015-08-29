@@ -45,6 +45,9 @@
 
       </div>
       <legend>Wikis Edit</legend>
+      <div id="edit_space">
+
+      </div>
   </div>
 
 <script type="text/javascript">
@@ -167,6 +170,48 @@
         });
       }
 
+      function edit_article(id) {
+       $.get("/get-article?id=" + id, function(result) {
+            if (result.articles.length > 0) {
+                var list = result.articles;
+                var title = list[0].title;
+                var content = list[0].content;
+                var line = '<label> ' + title + '</label>'
+        + '<textarea class="form-control" id = "content-'+ id +'">'+ content + '</textarea>' +
+        '<button class="btn btn-primary" id="save-' + id +'">save</button>';
+                $("#edit_space").html(line);
+            } else {
+                console.log("get-article failed");
+            }
+        });
+      }
+
+      function update_article(id) {
+        var content = $("#content-"+id).val();
+        if (content.length > 0) {
+            $.get("/update-article?id=" + id + "&content=" + content, function(event) {
+                if (event.message) {
+                    alert(event.message);
+                }
+            });
+        } else {
+            alert('content is empty');
+        }
+      }
+
+      $("#edit_space").click(function(event) {
+          console.log(event.target.id);
+        var target = event.target.id;
+        if (target) {
+          var elem_id = target + "";
+           if (elem_id.startsWith("save")) {
+            var list = elem_id.split('-');
+            console.log("called update article");
+            update_article(list[1]);
+          }
+         }
+      });
+
      $("#show_space").click(function(event) {
         console.log(event.target.id);
         var target = event.target.id;
@@ -181,6 +226,12 @@
             var list = elem_id.split('-');
             console.log("called show_article");
             show_article(list[1]);
+          }
+
+          if (elem_id.startsWith("edit")) {
+            var list = elem_id.split('-');
+            console.log("called edit article");
+            edit_article(list[1]);
           }
         }
      });
