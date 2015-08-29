@@ -58,7 +58,7 @@
 (defn update-article [user article-id content]
   (j/with-db-transaction [t-con mysql-db]
     (do
-      (update-content article-id content user)
+      (update-content user article-id content)
       (update-modified-time article-id)
       (increment-edits article-id))))
 
