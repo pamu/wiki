@@ -54,12 +54,12 @@
       function show(id, title, content, ctime, mtime, edits) {
       var line = '';
 
-      line += ('<div class="well"> <br/> <label>' + id + ' ' + title + ' </label> <br/> <div> <textarea disabled>'
+      line += ('<div class="well"> <br/> <label>' + id + ' ' + title + ' </label> <br/> <div> <textarea id="content-' + id + '" disable>'
       + content + '</textarea></div> <br/> <label>created on</label> <br/> <span>'
       + ctime + '</span> <br/> <label> modified on </label> <br/> <span> '
       + mtime + '</span> <br/> <label>edits</label> <br/> <span>'
-      + edits + '</span> <br/> </div>'
-      + '');
+      + edits + '</span> <br/>'
+      + '<button id="save-'+ id + '"class="btn btn-danger">save</button> </div>');
 
       return line;
      }
@@ -92,6 +92,30 @@
          page_number += 1;
         fetch(page_size, page_number);
      });
+
+      function save(id) {
+        var content = $('#content-' + id).val();
+        if (content.length > 0) {
+          $.get('/update-article?id='+id+'&content='+ content, function(data) {
+            console.log(JSON.stringify(data));
+          });
+        }
+      }
+
+     $("#show_space").click(function(event) {
+        console.log(event.target.id);
+        if (event.target.id) {
+          var elem_id = event.target.id;
+          if (elem_id.startsWith('content')) {
+            var list = elem_id.split('-');
+          }
+          if (elem_id.startsWith('save')) {
+            var list = elem_id.split('-');
+            save(list[1]);
+          }
+        }
+     });
+
 
   });
 
