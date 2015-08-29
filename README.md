@@ -22,7 +22,7 @@ Yet Another Wiki in clojure
 
 # DB init
 
-by default database connects to root
+by default this web app connects to root
 
 create database wiki
 
