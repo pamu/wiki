@@ -18,12 +18,14 @@
     (let [sdf (new java.text.SimpleDateFormat "yyyyMMddHHmmss")]
       (.format sdf (.getTime date)))))
 
-(defn insert [title content]
+(defn insert [user title content]
   (j/insert! mysql-db :articles
     {:title title
      :content content
-     :creation_time (current-time)
+     :author user
+     :last_modified_by user
      :modified_time (current-time)
+     :creation_time (current-time)
      :edits 0}))
 
 (defn get-article [article-id]
@@ -47,8 +49,8 @@
       (update-edits article-id (+ edits 1)))
     ))
 
-(defn update-content [article-id content]
-  (j/update! mysql-db :articles {:content content} ["id = ?" article-id]))
+(defn update-content [user article-id content]
+  (j/update! mysql-db :articles {:content content :last_modified_by user} ["id = ?" article-id]))
 
 (defn update-modified-time [article-id]
   (j/update! mysql-db :articles {:modified_time (current-time)} ["id = ?" article-id]))

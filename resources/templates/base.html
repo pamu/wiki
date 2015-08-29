@@ -3,12 +3,11 @@
   <head>
     <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Welcome to Wiki</title>
-    <script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-
     <!-- scripts and styles -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+    <script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     {% style "/css/screen.css" %}
   </head>
   <body>
@@ -20,12 +19,16 @@
         </div>
         <div class="navbar-collapse collapse ">
           <ul class="nav navbar-nav">
-            <li {% ifequal page "home.html" %} class="active"{%endifequal%}>
+            {% ifequal page "home.html" %}
+            <li class="active">
               <a href="{{servlet-context}}/">Home</a>
             </li>
+            {%endifequal%}
+            <!--
             <li {% ifequal page "about.html" %} class="active"{%endifequal%}>
               <a href="{{servlet-context}}/about">About</a>
             </li>
+            -->
           </ul>
         </div>
       </div>

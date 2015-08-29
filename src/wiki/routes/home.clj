@@ -13,13 +13,30 @@
 (defn about-page []
   (layout/render "about.html"))
 
+(defn user-page []
+  (layout/render "user.html"))
+
 (defroutes home-routes
-  (GET "/" [] (home-page))
-  (OPTIONS "/" []
+  (GET "/" req
+      (let [user (:value (get (:cookies req) "wiki_user"))]
+        (println (str "user:" user))
+        (if (not user)
+          (user-page)
+          (home-page))))
+  (OPTIONS "/" req
     {:status 200
      :headers {"Access-Control-Allow-Methods" "OPTIONS, GET"}})
 
   (GET "/about" [] (about-page))
+
+  (GET "/home" req
+    (let [user (:value (get (:cookies req) "wiki_user"))]
+      (if (not user)
+        (user-page)
+        (home-page))))
+  (OPTIONS "/home" req
+    {:status 200
+     :headers {"Access-Control-Allow-Methods" "OPTIONS, GET"}})
 
   (GET "/create" req
     (processor/process-create req))
@@ -35,6 +52,12 @@
 
   (GET "/get-articles" req
     (processor/process-get-articles req))
+  (OPTIONS "/get-articles" []
+    {:status 200
+     :headers {"Access-Control-Allow-Methods" "OPTIONS, GET"}})
+
+  (GET "/get-article" req
+    (processor/process-get-article req))
   (OPTIONS "/get-articles" []
     {:status 200
      :headers {"Access-Control-Allow-Methods" "OPTIONS, GET"}})

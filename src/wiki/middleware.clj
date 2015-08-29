@@ -12,7 +12,8 @@
             [ring.middleware.session-timeout :refer [wrap-idle-session-timeout]]
             [ring.middleware.session.memory :refer [memory-store]]
             [ring.middleware.format :refer [wrap-restful-format]]
-            [noir.response :refer [json]]))
+            [noir.response :refer [json]]
+            [ring.middleware.cookies :refer [wrap-cookies]]))
 
 (defn wrap-servlet-context [handler]
   (fn [request]
@@ -52,7 +53,7 @@
 (defn wrap-base [handler]
   (-> handler
       wrap-dev
-      
+      wrap-cookies
       (wrap-idle-session-timeout
         {:timeout (* 60 30)
          :timeout-response (redirect "/")})

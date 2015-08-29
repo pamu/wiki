@@ -10,20 +10,45 @@
     <div class="span12">
     {{docs|markdown}}
     </div> -->
-    <label>Create a new article</label>
+    <legend>Create a new Wiki</legend>
     <button id="create" class="btn btn-default">create</button>
     <div id="create_space"></div>
     <br/>
-    <label>
-      Articles
-    </label>
-    <div id="show_space"></div>
+    <legend>
+      Wiki Pages
+    </legend>
+    <div >
+        <table id="pages_table" class="table table-bordered">
+            <caption>Wiki Pages</caption>
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>author</th>
+                <th>created on</th>
+                <th>last modified on</th>
+                <th>last modified by</th>
+                <th>edits</th>
+                <th>edit</th>
+                <th>delete</th>
+            </tr>
+            </thead>
+            <tbody id="show_space">
+
+            </tbody>
+        </table>
+    </div>
     <button id = "prev" class="btn btn-default">prev</button>
     <button id ="next" class="btn btn-default">next</button>
+      <legend>Wikis</legend>
+      <div id="wikis">
+
+      </div>
+      <legend>Wikis Edit</legend>
   </div>
 
 <script type="text/javascript">
- var createForm = '<label>Title</label><br/><input type="text" id="create_title" placeholder="title"/><br/><label>Content</label><br/><textarea class="span6" id="create_content" rows="5" placeholder="content"></textarea><br/><button id="create_done"class="btn btn-success">Done</button>'
+ var createForm = '<label>Title</label><br/><input type="text" class="form-control"id="create_title" placeholder="title"/><br/><label>Content</label><br/><textarea class="form-control" id="create_content" rows="5" placeholder="content"></textarea><br/><button id="create_done"class="btn btn-success">Done</button>'
 
   $(document).ready(function() {
      $("#create").click(function() {
@@ -51,16 +76,20 @@
      var page_size = 2;
      var page_number = 1;
 
-      function show(id, title, content, ctime, mtime, edits) {
+      function show(id, title, author, ctime, last_modified_by, mtime, edits) {
       var line = '';
-
-      line += ('<div class="well"> <br/> <label>' + id + ' ' + title + ' </label> <br/> <div> <textarea id="content-' + id + '" disable>'
-      + content + '</textarea></div> <br/> <label>created on</label> <br/> <span>'
-      + ctime + '</span> <br/> <label> modified on </label> <br/> <span> '
-      + mtime + '</span> <br/> <label>edits</label> <br/> <span>'
-      + edits + '</span> <br/>'
-      + '<button id="save-'+ id + '"class="btn btn-success">save</button>'
-      + '<button id="remove-' + id + '"class="btn btn-danger">delete</button></div>');
+      line += (
+        '<tr><th>' + id + '</th>'
+        + '<th><button id="show-' + id + '"class="btn btn-primary">' + title + '</button></th>'
+        + '<th>' + author + '</th>'
+        + '<th>' + ctime + '</th>'
+        + '<th>' + last_modified_by + '</th>'
+        + '<th>' + mtime + '</th>'
+        + '<th>' + edits + '</th>'
+        + '<th><button class="btn btn-primary" id="edit-' + id + '">edit</button></th>'
+        + '<th><button id = "delete-' + id + '" class="btn btn-primary">delete</button></th>'
+        + '</tr>'
+      );
       return line;
      }
 
@@ -72,7 +101,7 @@
         var list = result.articles;
         var results = '';
         for(var i = 0; i < list.length; i ++) {
-          results += (show(list[i].id, list[i].title, list[i].content, list[i].creation_time, list[i].modified_time, list[i].edits));
+          results += (show(list[i].id, list[i].title, list[i].author, list[i].creation_time, list[i].last_modified_by, list[i].modified_time, list[i].edits));
         }
         $("#show_space").html(results);
       } else {
@@ -110,6 +139,30 @@
             JSON.stringify(data);
             if (data.message) {
                 alert(data.message);
+                fetch(page_size, page_number);
+            }
+        });
+      }
+
+      function show_content(id, title, content, author, ctime, last_modified_by, mtime, edits) {
+      var line = '';
+      line += ('<div class="well"> <br/> <label>' + id + ' ' + title + ' </label> <br/> <div> <textarea class="form-control"id="content-' + id + '" disable>'
+      + content + '</textarea></div> <br/> <label>created on</label> <br/> <span>'
+      + ctime + '</span> <br/> <label> modified on </label> <br/> <span> '
+      + mtime + '</span> <br/> <label>edits</label> <br/> <span>'
+      + edits + '</span> <br/> <label>author</label> <br/> <span>'
+      + author + '</span> <br/> <label> last modified by </label> <span>'
+      + last_modified_by + '</span></div>');
+      return line;
+     }
+
+      function show_article(id) {
+        $.get("/get-article?id=" + id, function(result) {
+            if (result.articles.length > 0) {
+                var list = result.articles;
+                $("#wikis").html(show_content(list[0].id, list[0].title, list[0].content, list[0].author, list[0].creation_time, list[0].last_modified_by, list[0].modified_time, list[0].edits));
+            } else {
+                console.log("get-article failed");
             }
         });
       }
@@ -118,18 +171,16 @@
         console.log(event.target.id);
         var target = event.target.id;
         if (target) {
-          var elem_id = target + '';
-          if (elem_id.startsWith('content')) {
-            var list = elem_id.split('-');
-          }
-          if (elem_id.startsWith('save')) {
-            var list = elem_id.split('-');
-            save(list[1]);
-          }
-
-          if (elem_id.startsWith('remove')) {
+          var elem_id = target + "";
+          if (elem_id.startsWith("delete")) {
             var list = elem_id.split('-');
             remove(list[1]);
+          }
+
+          if (elem_id.startsWith("show")) {
+            var list = elem_id.split('-');
+            console.log("called show_article");
+            show_article(list[1]);
           }
         }
      });

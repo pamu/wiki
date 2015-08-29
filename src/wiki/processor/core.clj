@@ -66,14 +66,14 @@
 
 (defn process-create [req]
   (try
-    (let [result (db/insert (get (req :params) :title) (get (req :params) :content))]
+    (let [result (db/insert (:value (get (:cookies req) "wiki_user")) (get (req :params) :title) (get (req :params) :content))]
       (json {:message "success" :generated_key (:generated_key (first result))}))
     (catch Exception e
       (timbre/error "Database Exception" e))))
 
 (defn process-update-article [req]
   (try
-    (let [result (db/update-article (get (req :params) :id) (get (req :params) :content))]
+    (let [result (db/update-article (:value (get (:cookies req) "wiki_user")) (get (req :params) :id) (get (req :params) :content))]
       (json {:message "success" :effected_rows (first result)}))
     (catch Exception e
       (timbre/error "Database Exception" e))))
@@ -92,3 +92,9 @@
       (timbre/error "Database Exception" e)
       (json {:message "failure" :reason "exception in the processor"}))))
 
+(defn process-get-article [req]
+  (try
+    (json {:articles (db/get-article (:id (req :params)))})
+    (catch Exception e
+      (timbre/error "Database Exception" e)
+      (json {:message "failure" :reason "exception in the processor"}))))

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row-fluid">
+    <div class="col-md-3 col-md-offset-4">
+        <legend>Nick Name</legend>
+        <div class="form-group">
+            <input id="nick_name" type="text" class="span6 form-control" placeholder="nick name"/>
+            <br/>
+            <button id="go" class="btn btn-default form-control">Go !</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#go").click(function() {
+           var nick_name = $("#nick_name").val();
+            if (nick_name.length > 0) {
+                document.cookie = ("wiki_user=" + nick_name);
+                window.location = "/home";
+                console.log("done");
+            } else {
+                alert("Nick Name is empty");
+            }
+        });
+    });
+</script>
+
+{% endblock %}
