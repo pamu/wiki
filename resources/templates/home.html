@@ -59,8 +59,8 @@
       + ctime + '</span> <br/> <label> modified on </label> <br/> <span> '
       + mtime + '</span> <br/> <label>edits</label> <br/> <span>'
       + edits + '</span> <br/>'
-      + '<button id="save-'+ id + '"class="btn btn-danger">save</button> </div>');
-
+      + '<button id="save-'+ id + '"class="btn btn-success">save</button>'
+      + '<button id="remove-' + id + '"class="btn btn-danger">delete</button></div>');
       return line;
      }
 
@@ -98,20 +98,38 @@
         if (content.length > 0) {
           $.get('/update-article?id='+id+'&content='+ content, function(data) {
             console.log(JSON.stringify(data));
+            if (data.message) {
+                alert(data.message);
+            }
           });
         }
       }
 
+      function remove(id) {
+        $.get("/remove-article?id=" + id, function(data) {
+            JSON.stringify(data);
+            if (data.message) {
+                alert(data.message);
+            }
+        });
+      }
+
      $("#show_space").click(function(event) {
         console.log(event.target.id);
-        if (event.target.id) {
-          var elem_id = event.target.id;
+        var target = event.target.id;
+        if (target) {
+          var elem_id = target + '';
           if (elem_id.startsWith('content')) {
             var list = elem_id.split('-');
           }
           if (elem_id.startsWith('save')) {
             var list = elem_id.split('-');
             save(list[1]);
+          }
+
+          if (elem_id.startsWith('remove')) {
+            var list = elem_id.split('-');
+            remove(list[1]);
           }
         }
      });

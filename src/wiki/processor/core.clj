@@ -85,3 +85,10 @@
       (timbre/error "Database Exception" e)
       (json {:message "failure" :reason "exception in the processor"}))))
 
+(defn process-remove-article [req]
+  (try
+    (json {:message "success" :effected_rows (first (db/remove-article (get (req :params) :id)))})
+    (catch Exception e
+      (timbre/error "Database Exception" e)
+      (json {:message "failure" :reason "exception in the processor"}))))
+

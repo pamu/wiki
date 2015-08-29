@@ -68,6 +68,9 @@
                      (* (parse-int page-size) (- (parse-int page-number) 1))
                      (parse-int page-size)]))
 
+(defn remove-article [article-id]
+  (j/delete! mysql-db :articles ["id=?" article-id]))
+
 
 
 

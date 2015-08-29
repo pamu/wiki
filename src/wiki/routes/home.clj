@@ -39,6 +39,12 @@
     {:status 200
      :headers {"Access-Control-Allow-Methods" "OPTIONS, GET"}})
 
+  (GET "/remove-article" req
+    (processor/process-remove-article req))
+  (OPTIONS "remove-article" []
+    {:status 200
+      :headers {"Access-Control-Allow-Methods" "OPTIONS, GET"}})
+
 ;  (POST "/login" req
 ;    (processor/process-login req))
 ;  (OPTIONS "/login" []
