@@ -55,10 +55,10 @@
 (defn update-modified-time [article-id]
   (j/update! mysql-db :articles {:modified_time (current-time)} ["id = ?" article-id]))
 
-(defn update-article [article-id content]
+(defn update-article [user article-id content]
   (j/with-db-transaction [t-con mysql-db]
     (do
-      (update-content article-id content)
+      (update-content article-id content user)
       (update-modified-time article-id)
       (increment-edits article-id))))
 
