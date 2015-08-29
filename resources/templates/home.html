@@ -146,8 +146,8 @@
 
       function show_content(id, title, content, author, ctime, last_modified_by, mtime, edits) {
       var line = '';
-      line += ('<div class="well"> <br/> <label>' + id + ' ' + title + ' </label> <br/> <div> <textarea class="form-control"id="content-' + id + '" disable>'
-      + content + '</textarea></div> <br/> <label>created on</label> <br/> <span>'
+      line += ('<div class="well"> <br/> <label>' + id + ' ' + title + ' </label> <br/> <div> <div>'
+      + content + '</div></div> <br/> <label>created on</label> <br/> <span>'
       + ctime + '</span> <br/> <label> modified on </label> <br/> <span> '
       + mtime + '</span> <br/> <label>edits</label> <br/> <span>'
       + edits + '</span> <br/> <label>author</label> <br/> <span>'
