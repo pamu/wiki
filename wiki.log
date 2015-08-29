@@ -654,3 +654,23 @@
   [org.eclipse.jetty.util.thread.QueuedThreadPool runJob QueuedThreadPool.java 608]
   [org.eclipse.jetty.util.thread.QueuedThreadPool$3 run QueuedThreadPool.java 543]
   [java.lang.Thread run Thread.java 745]]}
+2015-Aug-29 01:46:08 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - wiki is shutting down...
+2015-Aug-29 01:46:08 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - shutdown complete!
+2015-Aug-29 07:04:15 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - 
+-=[ wiki started successfully using the development profile ]=-
+2015-Aug-29 07:15:00 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - wiki is shutting down...
+2015-Aug-29 07:15:00 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - shutdown complete!
+2015-Aug-29 07:15:16 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - 
+-=[ wiki started successfully using the development profile ]=-
+2015-Aug-29 07:54:09 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - wiki is shutting down...
+2015-Aug-29 07:54:09 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - shutdown complete!
+2015-Aug-29 07:54:25 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - 
+-=[ wiki started successfully using the development profile ]=-
+2015-Aug-29 07:59:13 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - wiki is shutting down...
+2015-Aug-29 07:59:13 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - shutdown complete!
+2015-Aug-29 07:59:31 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - 
+-=[ wiki started successfully using the development profile ]=-
+2015-Aug-29 08:00:21 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - wiki is shutting down...
+2015-Aug-29 08:00:21 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - shutdown complete!
+2015-Aug-29 08:00:38 +0530 Pamus-MacBook-Pro.local INFO [wiki.handler] - 
+-=[ wiki started successfully using the development profile ]=-

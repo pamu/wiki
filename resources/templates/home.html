@@ -1,15 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
-<!--
   <div class="jumbotron">
     <h1>Welcome to wiki</h1>
     <p>Time to start building your site!</p>
-    <p><a class="btn btn-primary btn-lg" href="http://luminusweb.net">Learn more &raquo;</a></p>
   </div>
 
-  <div class="row">
+  <div class="row-fluid">
+    <!--
     <div class="span12">
     {{docs|markdown}}
-    </div>
-  </div> -->
+    </div> -->
+    <label>Create a new article</label>
+    <button id="create" class="btn btn-default">create</button>
+    <div id="create_space"></div>
+    <div></div>
+  </div>
+
+<script type="text/javascript">
+ var createForm = '<label>Title</label><br/><input type="text" id="create_title" placeholder="title"/><br/><label>Content</label><br/><textarea class="span6" id="create_content" rows="5" placeholder="content"></textarea><br/><button id="create_done"class="btn btn-success">Done</button>'
+
+  $(document).ready(function() {
+     $("#create").click(function() {
+        $("#create_space").html(createForm);
+        $("#create_done").click(function() {
+          var title = $('#create_title').val();
+          var content = $('#create_content').val();
+          if (title) {
+            if (content) {
+              $.get('/create?title=' + title + '&content=' + content,
+              function(data) {
+                console.log(JSON.stringify(data));
+                $("#create_space").html('<span class="alert alert-success">success !</span>');
+              });
+            } else {
+              alert('content is empty');
+            }
+          } else {
+            alert("title is empty");
+            return;
+          }
+        });
+     });
+  });
+
+</script>
+
+
 {% endblock %}
