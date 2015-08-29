@@ -54,11 +54,12 @@
       function show(id, title, content, ctime, mtime, edits) {
       var line = '';
 
-      line += ('<div class="well"> <br/> <label>' + id + ' ' + title + ' </label> <br/> <div>'
-      + content + '</div> <br/> <label>created on</label> <br/> <span>'
+      line += ('<div class="well"> <br/> <label>' + id + ' ' + title + ' </label> <br/> <div> <textarea disabled>'
+      + content + '</textarea></div> <br/> <label>created on</label> <br/> <span>'
       + ctime + '</span> <br/> <label> modified on </label> <br/> <span> '
       + mtime + '</span> <br/> <label>edits</label> <br/> <span>'
-      + edits + '</span> <br/> </div>');
+      + edits + '</span> <br/> </div>'
+      + '');
 
       return line;
      }
