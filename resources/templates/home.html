@@ -13,7 +13,13 @@
     <label>Create a new article</label>
     <button id="create" class="btn btn-default">create</button>
     <div id="create_space"></div>
+    <br/>
+    <label>
+      Articles
+    </label>
     <div id="show_space"></div>
+    <button id = "prev" class="btn btn-default">prev</button>
+    <button id ="next" class="btn btn-default">next</button>
   </div>
 
 <script type="text/javascript">
@@ -57,17 +63,33 @@
       return line;
      }
 
-     $.get('/get-articles?page-size=' + page_size + "&page-number=" + page_number,
+     function fetch(page_size, page_number) {
+      $.get('/get-articles?page-size=' + page_size + "&page-number=" + page_number,
      function(result) {
       console.log(JSON.stringify(result));
       if (result.articles.length > 0) {
         var list = result.articles;
+        var results = '';
         for(var i = 0; i < list.length; i ++) {
-          $("#show_space").append(show(list[i].id, list[i].title, list[i].content, list[i].creation_time, list[i].modified_time, list[i].edits));
+          results += (show(list[i].id, list[i].title, list[i].content, list[i].creation_time, list[i].modified_time, list[i].edits));
         }
+        $("#show_space").html(results);
       } else {
        $('#show_space').html('no results to show');
       }
+     });
+     }
+
+     fetch(page_size, page_number);
+
+     $("#prev").click(function() {
+        page_number -= 1;
+        fetch(page_size, page_number);
+     });
+
+     $("#next").click(function() {
+         page_number += 1;
+        fetch(page_size, page_number);
      });
 
   });
